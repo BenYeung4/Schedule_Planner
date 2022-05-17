@@ -78,6 +78,7 @@ $(document).on("click",".fillIng", function(){
     textInput.trigger("focus");
 });
 
+//replace input when clicked off
 $(document).on("blur", "textarea", function(){
     var text = $(this).val();
 
@@ -87,7 +88,7 @@ $(document).on("blur", "textarea", function(){
     var classLabel = $(this)
     .attr("class");
 
-    var textInput = $("<textarea>")
+    var taskP = $("<textarea>")
     .addClass(classLabel)
     .attr("id", id)
     .text(text);

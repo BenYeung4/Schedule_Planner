@@ -70,3 +70,7 @@ textarea{
   transition: all .3s ease-in-out;
 }
 
+.fillIng{
+  border-top: 1px solid white;
+  min-height: 80px;
+}

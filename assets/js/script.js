@@ -3,12 +3,13 @@ var container = $(".container");
 var timeBlocks = $(".timeblocks");
 
 //the current day is displayed at the top of the calendar
-var currentDay = moment().format("dddd, MMM Do YYYY");
-$("#currentDay").text(currentDay);
+var today = moment().format("dddd, MMM Do YYYY");
+currentDay.text(today);
 
 //the current hour of the day
 var currentHr = moment().format("h");
 
+console.log(currentHr)
 
 var tasks = {}; //saving to local repository
 var workHr = 9;
@@ -30,7 +31,7 @@ var listTimeBlocks = function(){
             .attr('id', hour)
             .appendTo(timeBlocks);
     
-        $('<div class="row d-flex border-left border-right col-10 pl-3">')
+        $('<div class="fillIng d-flex border-left border-right col-10 pl-3">')
             .text(Content)
             .attr('id', hour)
             .appendTo(timeBlocks);
@@ -41,14 +42,14 @@ var listTimeBlocks = function(){
             .appendTo(timeBlocks);
 
         if(hour < currentHr){
-            $("div#" + hour + ".row")
+            $("div#" + hour + ".fillIng")
             .addClass("past")
         } else if (hour === currentHr){
-            $("div#" + hour + ".row")
+            $("div#" + hour + ".fillIng")
             .addClass("present")
          }
         else {
-            $("div#" + hour + ".row")
+            $("div#" + hour + ".fillIng")
             .addClass("future")
         }
     }
@@ -56,7 +57,7 @@ var listTimeBlocks = function(){
 
 // WHEN I click into a time block
 // THEN I can enter an event
-$(document).on("clock",".row", function(){
+$(document).on("click",".fillIng", function(){
     var text = $(this)
         .text()
         .trim();
@@ -77,39 +78,35 @@ $(document).on("clock",".row", function(){
     textInput.trigger("focus");
 });
 
-//replace tasks when you click off of textarea
-
 $(document).on("blur", "textarea", function(){
     var text = $(this).val();
 
     var id = $(this)
-        .attr("id")
-    
+    .attr("id");
+
     var classLabel = $(this)
-        .attr("class");
+    .attr("class");
+
+    var textInput = $("<textarea>")
+    .addClass(classLabel)
+    .attr("id", id)
+    .text(text);
     
-    var taskP = $("<div>")
-        .addClass(classLabel)
-        .attr('id', id)
-        .text(text);
-
     $(this).replaceWith(taskP);
-
-});
-
+})
 
 // WHEN I click the save button for that time block
 // THEN the text for that event is saved in local storage
 $(document).on("click", ".saveBtn", function(){
     var id = $(this).attr("id");
-    var text = $("#" + id + ".row").text();
+    var text = $("#" + id + ".fillIng").text();
     tasks[""+id] = text;
     saveTasks();
 });
 
 // WHEN I refresh the page
 // THEN the saved events persist
-
+//retrieving task from local repository
 var loadTasks = function(){
     tasks = JSON.parse(localStorage.getItem("tasks"));
 
@@ -117,6 +114,8 @@ var loadTasks = function(){
         tasks = {};
     }
 }
+
+//saving task in the local repository
 var saveTasks = function(){
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }

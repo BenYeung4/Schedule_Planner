@@ -7,12 +7,10 @@ var today = moment().format("dddd, MMM Do YYYY");
 currentDay.text(today);
 
 //the current hour of the day
-var currentHr = moment().format("h");
-
-console.log(currentHr)
+var currentHr = moment().format("kk");
 
 var tasks = {}; //saving to local repository
-var workHr = 9;
+
 
 // WHEN I scroll down
 // THEN I am presented with time blocks for standard business hours
@@ -20,12 +18,13 @@ var workHr = 9;
 // THEN each time block is color-coded to indicate whether it is in the past, present, or future
 //the timeblocks
 var listTimeBlocks = function(){
-    for (var i = 0; i < workHr; i++){
+    for (var i = 0; i < 9; i++){
         var block = moment().hour(9).add(i, 'hour'). format("hA");
-        var hour = moment().hour(9).add(i, "hour").format("h");
+        var hour = moment().hour(9).add(i, "hour").format("kk");
         var Content = tasks["" + hour];
     
-
+//try var class document.createElement('div');
+//cardDiv.setAttribute("class", "hour align-items-center justify-content-center d-flex col-1 ");
         $('<div class = " hour align-items-center justify-content-center d-flex col-1">')
             .text(block)
             .attr('id', hour)
@@ -94,7 +93,7 @@ $(document).on("blur", "textarea", function(){
     .text(text);
     
     $(this).replaceWith(taskP);
-})
+});
 
 // WHEN I click the save button for that time block
 // THEN the text for that event is saved in local storage
@@ -114,12 +113,12 @@ var loadTasks = function(){
     if(!tasks){
         tasks = {};
     }
-}
+};
 
 //saving task in the local repository
 var saveTasks = function(){
     localStorage.setItem("tasks", JSON.stringify(tasks));
-}
+};
 
 loadTasks();
 listTimeBlocks();

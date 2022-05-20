@@ -1,3 +1,4 @@
+//set variables for the time, container from index, and current day
 var currentDay = $("#currentDay");
 var container = $(".container");
 var timeBlocks = $(".timeblocks");
@@ -8,7 +9,6 @@ currentDay.text(today);
 
 //the current hour of the day
 var currentHr = moment().format("kk");
-
 var tasks = {}; //saving to local repository
 
 
@@ -17,14 +17,13 @@ var tasks = {}; //saving to local repository
 // WHEN I view the time blocks for that day
 // THEN each time block is color-coded to indicate whether it is in the past, present, or future
 //the timeblocks
+//function to loop creating the blocks
 var listTimeBlocks = function(){
     for (var i = 0; i < 9; i++){
         var block = moment().hour(9).add(i, 'hour'). format("hA");
         var hour = moment().hour(9).add(i, "hour").format("kk");
         var Content = tasks["" + hour];
     
-//try var class document.createElement('div');
-//cardDiv.setAttribute("class", "hour align-items-center justify-content-center d-flex col-1 ");
         $('<div class = " hour align-items-center justify-content-center d-flex col-1">')
             .text(block)
             .attr('id', hour)
@@ -40,19 +39,20 @@ var listTimeBlocks = function(){
             .attr('id', hour)
             .appendTo(timeBlocks);
 
-        if(hour < currentHr){
-            $("div#" + hour + ".fillIng")
-            .addClass("past")
-        } else if (hour === currentHr){
+            //when hour of the day is a certain time, then color of the block changes
+        if(hour === currentHr){
             $("div#" + hour + ".fillIng")
             .addClass("present")
-         }
-        else {
+        } else if (hour < currentHr){
+            $("div#" + hour + ".fillIng")
+            .addClass("past")
+        } else{
             $("div#" + hour + ".fillIng")
             .addClass("future")
         }
+ 
     }
-}
+};
 
 // WHEN I click into a time block
 // THEN I can enter an event
@@ -70,7 +70,7 @@ $(document).on("click",".fillIng", function(){
     var textInput = $("<textarea>")
         .addClass(classLabel)
         .attr("id", id)
-        .val(text);
+        .text(text);
 
     $(this).replaceWith(textInput);
 
@@ -79,7 +79,7 @@ $(document).on("click",".fillIng", function(){
 
 //replace input when clicked off
 $(document).on("blur", "textarea", function(){
-    var text = $(this).val();
+    var text = $(this).val().trim();
 
     var id = $(this)
     .attr("id");
@@ -120,5 +120,6 @@ var saveTasks = function(){
     localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
+//load task for the first time
 loadTasks();
 listTimeBlocks();

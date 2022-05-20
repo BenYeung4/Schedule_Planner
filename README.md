@@ -11,7 +11,7 @@ currentDay.text(today);
 
 which shows the following:
 
-
+![Top of Calandar](https://user-images.githubusercontent.com/52897163/169454245-7a75116d-d817-4742-9aed-958ef1a8ba4e.JPG)
 
 
 
@@ -42,7 +42,7 @@ var listTimeBlocks = function(){
             .appendTo(timeBlocks);
 
 
-
+![time blocks](https://user-images.githubusercontent.com/52897163/169454289-a8250849-9d5b-43a0-a383-c785753b87a8.JPG)
 
 
 WHEN I view the time blocks for that day
@@ -61,8 +61,6 @@ Used the if statement inside the loop, making sure that the hour matches.  if no
             .addClass("future")
         }
  
-
-
 WHEN I click into a time block
 THEN I can enter an event
 
@@ -89,6 +87,9 @@ $(document).on("click",".fillIng", function(){
     textInput.trigger("focus");
 });
 
+![Enter Event](https://user-images.githubusercontent.com/52897163/169454361-4979aa34-9f9f-4d65-99af-d91afb2eadde.JPG)
+
+
 WHEN I click the save button for that time block
 THEN the text for that event is saved in local storage
 WHEN I refresh the page
@@ -100,4 +101,4 @@ var saveTasks = function(){
     localStorage.setItem("tasks", JSON.stringify(tasks));
 };
 
-
+![Save](https://user-images.githubusercontent.com/52897163/169454381-6bc46c62-72d3-4555-ac4f-f7d0b8f584c0.JPG)
